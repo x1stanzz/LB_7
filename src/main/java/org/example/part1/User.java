@@ -12,13 +12,13 @@ public class User {
         this.cart = cart;
     }
 
-    Integer getId(){
+    public Integer getId(){
         return id;
     }
-    String getUsername(){
+    public String getUsername(){
         return username;
     }
-    Map<Product, Integer> getCart(){
+    public Map<Product, Integer> getCart(){
         return cart;
     }
     public void addToCart(Product product, int quantity){
