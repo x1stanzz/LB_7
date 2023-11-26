@@ -14,21 +14,38 @@ public class Order {
         this.orderDetails = new HashMap<>();
         this.totalPrice = 0.0;
     }
-    Integer getId(){
+    public Integer getId(){
         return id;
     }
-    Integer getUserId(){
+    public Integer getUserId(){
         return userId;
     }
-    Map<Product, Integer> getOrderDetails(){
-        return orderDetails;
+    public String getOrderDetails(){
+        StringBuilder details = new StringBuilder("{");
+        for(Map.Entry<Product, Integer> entry : orderDetails.entrySet()){
+            Product product = entry.getKey();
+            int quantity = entry.getValue();
+            details.append(product.getName()).append(" - ").append(quantity).append(", ");
+        }
+        if(details.length() > 2) {
+            details.delete(details.length() - 2, details.length());
+        }
+        details.append("}");
+        return details.toString();
     }
-    double getTotalPrice(){
+    public void setOrderDetails(Map<Product, Integer> orderDetails){
+        this.orderDetails = orderDetails;
+    }
+    public double getTotalPrice(){
         return totalPrice;
     }
     public void calculateTotalPrice(){
         for(Map.Entry<Product, Integer> entry : orderDetails.entrySet()){
             totalPrice += entry.getKey().getPrice() * entry.getValue();
         }
+    }
+    @Override
+    public String toString(){
+        return "id: " + id + ", userId: " + userId + ", orderDetails: " + getOrderDetails() + ", totalPrice: " + totalPrice;
     }
 }
