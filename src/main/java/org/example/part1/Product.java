@@ -1,6 +1,7 @@
 package org.example.part1;
+import java.util.Comparator;
 
-public class Product {
+public class Product implements Comparable<Product>{
     private Integer id;
     private String name;
     private double price;
@@ -11,20 +12,40 @@ public class Product {
         this.price = price;
         this.stock = stock;
     }
-    int getId(){
+    public int getId(){
         return id;
     }
-    String getName(){
+    public String getName(){
         return name;
     }
-    double getPrice(){
+    public double getPrice(){
         return price;
     }
-    int getStock(){
+    public int getStock(){
         return stock;
+    }
+    public void setStock(int stock){
+        this.stock = stock;
     }
     @Override
     public String toString(){
         return "id: " + id + ", name: " + name + ", price: " + price + ", stock: " + stock;
+    }
+
+    @Override
+    public int compareTo(Product other) {
+        return Double.compare(this.price, other.price);
+    }
+    public static class NameComparator implements Comparator<Product>{
+        @Override
+        public int compare(Product product1, Product product2){
+            return product1.getName().compareTo(product2.getName());
+        }
+    }
+    public static class StockComparator implements Comparator<Product>{
+        @Override
+        public int compare(Product product1, Product product2){
+            return Integer.compare(product1.getStock(), product2.getStock());
+        }
     }
 }
