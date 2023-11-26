@@ -1,5 +1,6 @@
 package org.example.part1;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class User {
@@ -9,7 +10,7 @@ public class User {
     public User (Integer id, String username){
         this.id = id;
         this.username = username;
-        this.cart = cart;
+        this.cart = new HashMap<>();
     }
 
     public Integer getId(){
@@ -32,5 +33,11 @@ public class User {
     public void modifyCart(Product product, int newQuantity){
         cart.put(product, newQuantity);
     }
-
+    public Map<Product, Integer> getCartCopy() {
+        return new HashMap<>(cart);
+    }
+    @Override
+    public String toString(){
+        return "id: " + id + ", username: " + username;
+    }
 }
