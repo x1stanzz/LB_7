@@ -1,7 +1,7 @@
 package org.example.part1;
 
 public class Product {
-    private int id;
+    private Integer id;
     private String name;
     private double price;
     private int stock;
@@ -14,10 +14,10 @@ public class Product {
     int getId(){
         return id;
     }
-    String name(){
+    String getName(){
         return name;
     }
-    double price(){
+    double getPrice(){
         return price;
     }
     int getStock(){
