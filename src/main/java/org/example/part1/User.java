@@ -30,8 +30,8 @@ public class User {
             System.out.println("Quantity can`t be a negative number");
             return;
         }
-        int porductStock = product.getStock();
-        if(porductStock >= quantity)
+        int productStock = product.getStock();
+        if(productStock >= quantity)
             cart.put(product, cart.getOrDefault(product, 0) + quantity);
         else
             throw new OutOfStockException("Not enough stock available");
