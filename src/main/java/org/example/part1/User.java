@@ -1,5 +1,8 @@
 package org.example.part1;
 
+import org.example.Exceptions.OutOfStockException;
+import org.example.part2.ECommercePlatform;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,16 +25,28 @@ public class User {
     public Map<Product, Integer> getCart(){
         return cart;
     }
-    public void addToCart(Product product, int quantity){
-        cart.put(product, cart.getOrDefault(product, 0) + quantity);
+    public void addToCart(Product product, int quantity) throws OutOfStockException {
+        if(quantity <= 0){
+            System.out.println("Quantity can`t be a negative number");
+            return;
+        }
+        int porductStock = product.getStock();
+        if(porductStock >= quantity)
+            cart.put(product, cart.getOrDefault(product, 0) + quantity);
+        else
+            throw new OutOfStockException("Not enough stock available");
     }
 
-    public void removeFromCart(Product product, int quantity){
-        cart.put(product, cart.getOrDefault(product, 0) - quantity);
-        cart.remove(product);
+    public void removeFromCart(Product product){
+        if(cart.containsKey(product)) {
+            cart.remove(product);
+        } else {
+            System.out.println("Product was not found in the cart");
+        }
     }
-    public void modifyCart(Product product, int newQuantity){
-        cart.put(product, newQuantity);
+    public void modifyCart(Product product, int newQuantity) throws OutOfStockException {
+        removeFromCart(product);
+        addToCart(product, newQuantity);
     }
     public Map<Product, Integer> getCartCopy() {
         return new HashMap<>(cart);
