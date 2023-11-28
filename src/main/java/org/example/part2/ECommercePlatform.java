@@ -29,21 +29,25 @@ public class ECommercePlatform {
         products.put(product.getId(), product);
     }
     public void createOrder(User user){
-        int orderId = orders.size() + 1;
-        Map<Product, Integer> orderDetails = new HashMap<>(user.getCartCopy());
-        Order order = new Order(orderId, user.getId());
-        order.setOrderDetails(orderDetails);
-        order.calculateTotalPrice();
-        orders.put(orderId, order);
+        if(users.containsKey(user.getId())) {
+            int orderId = orders.size() + 1;
+            Map<Product, Integer> orderDetails = new HashMap<>(user.getCartCopy());
+            Order order = new Order(orderId, user.getId());
+            order.setOrderDetails(orderDetails);
+            order.calculateTotalPrice();
+            orders.put(orderId, order);
 
-        for(Map.Entry<Product, Integer> entry : orderDetails.entrySet()){
-            Product product = entry.getKey();
-            int quantity = entry.getValue();
-            int remainingStock = product.getStock() - quantity;
-            product.setStock(remainingStock);
+            for (Map.Entry<Product, Integer> entry : orderDetails.entrySet()) {
+                Product product = entry.getKey();
+                int quantity = entry.getValue();
+                int remainingStock = product.getStock() - quantity;
+                product.setStock(remainingStock);
+            }
+
+            user.getCart().clear();
+        } else {
+            System.out.println("User not found!");
         }
-
-        user.getCart().clear();
     }
 
     public void displayAvailableProducts(){
@@ -63,7 +67,7 @@ public class ECommercePlatform {
     }
 
     public void updateProductStock(int productId, int newStock){
-        if(products.containsKey(productId) & newStock >= 0){
+        if(products.containsKey(productId) && newStock >= 0){
             Product product = products.get(productId);
             product.setStock(newStock);
         } else if (newStock < 0){
